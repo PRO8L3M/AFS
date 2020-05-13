@@ -7,4 +7,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CommonTextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/task_view_text</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="TaskViewName" parent="CommonTextView">
+        <item name="android:textSize">@dimen/text_size_22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TaskViewId" parent="CommonTextView"/>
+
+    <style name="TaskViewStatus" parent="CommonTextView"/>
+
 </resources>

@@ -74,6 +74,7 @@ dependencies {
     implementation Libraries.navigationKtx
 
     implementation Libraries.room
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt Libraries.roomCompiler
     implementation Libraries.roomKtx
 

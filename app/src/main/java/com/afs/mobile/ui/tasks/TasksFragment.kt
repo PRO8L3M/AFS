@@ -35,17 +35,24 @@ class TasksFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.task.observe(viewLifecycleOwner, Observer { tasks ->
-            if (tasks.isEmpty()) {
-                val newTasks = viewModel.getMockedTasks()
-                viewModel.insertTasks(newTasks)
-            }
-            insertNewList(tasks)
-        })
-
+        observeTaskLiveData()
         setUpRecyclerView()
         handleRecyclerClickEvents()
         onDoubleBackPressed()
+    }
+
+    private fun observeTaskLiveData() {
+        viewModel.task.observe(viewLifecycleOwner, Observer { tasks ->
+            initTasksOnFirstLaunch(tasks)
+            insertNewList(tasks)
+        })
+    }
+
+    private fun initTasksOnFirstLaunch(tasks: List<Task>) {
+        if (tasks.isEmpty()) {
+            val newTasks = viewModel.getMockedTasks()
+            viewModel.insertTasks(newTasks)
+        }
     }
 
     private fun handleRecyclerClickEvents() {

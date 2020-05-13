@@ -32,39 +32,35 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_view_id"
+                style="@style/TaskViewId"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_16dp"
                 android:layout_marginTop="@dimen/margin_small_8dp"
                 android:text="@{@string/task_id(task.id)}"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_16sp"
                 app:layout_constraintEnd_toStartOf="@+id/task_view_guideline_center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_view_name"
+                style="@style/TaskViewName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_16dp"
                 android:layout_marginTop="@dimen/margin_small_8dp"
                 android:text="@{task.name}"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_22sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/task_view_guideline_center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/task_view_id" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_view_status"
+                style="@style/TaskViewStatus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small_8dp"
                 android:text="@{@string/task_status(task.state.name)}"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/task_view_guideline_center"
                 app:layout_constraintTop_toTopOf="parent" />

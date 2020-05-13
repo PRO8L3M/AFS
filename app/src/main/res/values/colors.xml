@@ -16,4 +16,5 @@
     <color name="status_working">@color/orange</color>
     <color name="recycler_background">@color/gray</color>
     <color name="status_button_background">@color/blue</color>
+    <color name="task_view_text">@android:color/black</color>
 </resources>
