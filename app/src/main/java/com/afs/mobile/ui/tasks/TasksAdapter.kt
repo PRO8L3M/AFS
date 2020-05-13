@@ -9,7 +9,7 @@ import com.afs.mobile.common.OPEN_STATUS
 import com.afs.mobile.data.entity.Task
 import com.afs.mobile.databinding.TaskViewBinding
 import com.afs.mobile.ext.getAsyncListDiffer
-import com.afs.mobile.ext.hasManyTaskStatus
+import com.afs.mobile.ext.hasVarietyTaskStatuses
 import com.afs.mobile.ext.layoutInflater
 
 class TasksAdapter : RecyclerView.Adapter<TaskViewHolder>() {
@@ -30,8 +30,7 @@ class TasksAdapter : RecyclerView.Adapter<TaskViewHolder>() {
     }
 
     fun swapNewList(tasks: List<Task>) {
-        //todo change name
-        val newTasks = if (tasks.hasManyTaskStatus()) changeTasksActivationStates(tasks) else tasks
+        val newTasks = if (tasks.hasVarietyTaskStatuses()) changeTasksActivationStates(tasks) else tasks
         differ.submitList(newTasks)
     }
 
