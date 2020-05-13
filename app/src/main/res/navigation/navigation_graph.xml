@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.afs.mobile.ui.start.StartFragment"
+        android:name="com.afs.mobile.ui.tasks.TasksFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start" />
 </navigation>

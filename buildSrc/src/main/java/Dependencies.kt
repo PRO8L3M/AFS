@@ -29,6 +29,8 @@ object Versions {
     val navigation = "2.3.0-alpha01"
 
     val gradleVersionsPlugin = "0.28.0"
+
+    val room = "2.2.5"
 }
 
 object Libraries {
@@ -69,4 +71,8 @@ object Libraries {
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     val gradleVersionPlugin = "com.github.ben-manes:gradle-versions-plugin:${Versions.gradleVersionsPlugin}"
+
+    val room = "androidx.room:room-runtime:${Versions.room}"
+    val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
 }

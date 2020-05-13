@@ -3,4 +3,16 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="green">#0fd644</color>
+    <color name="yellow">#facf0f</color>
+    <color name="red">#e61515</color>
+    <color name="gray">#e6e8e6</color>
+    <color name="blue">#0f4abf</color>
+    <color name="orange">#ed8c15</color>
+
+    <color name="status_open">@color/green</color>
+    <color name="status_travelling">@color/yellow</color>
+    <color name="status_working">@color/orange</color>
+    <color name="recycler_background">@color/gray</color>
+    <color name="status_button_background">@color/blue</color>
 </resources>

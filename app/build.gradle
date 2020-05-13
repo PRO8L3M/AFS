@@ -2,10 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "com.github.ben-manes.versions"
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+
+    dataBinding {
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "com.afs.mobile"
@@ -67,6 +72,10 @@ dependencies {
 
     implementation Libraries.navigationFragmentKtx
     implementation Libraries.navigationKtx
+
+    implementation Libraries.room
+    kapt Libraries.roomCompiler
+    implementation Libraries.roomKtx
 
     testImplementation Libraries.junit
     androidTestImplementation Libraries.androidxJunit
