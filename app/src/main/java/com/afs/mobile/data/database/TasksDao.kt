@@ -1,14 +1,14 @@
 package com.afs.mobile.data.database
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.afs.mobile.data.entity.Task
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TasksDao {
-
-    @Insert
-    suspend fun insertTask(task: Task)
 
     @Insert
     suspend fun insertTasks(list: List<Task>)

@@ -1,39 +1,29 @@
 package com.afs.mobile.ui.tasks
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.afs.mobile.data.entity.Task
-import com.afs.mobile.data.repository.Repository
+import com.afs.mobile.data.repository.TaskRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class TasksViewModel(private val repository: Repository) : ViewModel() {
+class TasksViewModel(private val repository: TaskRepository) : ViewModel() {
 
     val task: LiveData<List<Task>> = repository.getTasks().asLiveData()
 
-    fun insertTask(task: Task) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                repository.insertTask(task)
-            }
-        }
-    }
-
     fun insertTasks(tasks: List<Task>) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                repository.insertTasks(tasks)
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertTasks(tasks)
         }
     }
 
     fun updateTask(task: Task) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                repository.updateTask(task)
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateTask(task)
         }
     }
+
+    fun getMockedTasks() = repository.getMockedTasks()
 }

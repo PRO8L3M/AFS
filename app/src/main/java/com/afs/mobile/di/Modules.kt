@@ -1,7 +1,7 @@
 package com.afs.mobile.di
 
 import com.afs.mobile.data.database.AppDatabase
-import com.afs.mobile.data.repository.Repository
+import com.afs.mobile.data.repository.TaskRepository
 import com.afs.mobile.ui.tasks.TasksViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -21,7 +21,7 @@ private val viewModelModule = module {
 }
 
 private val repositoryModule = module {
-    single { Repository(get()) }
+    single { TaskRepository(get()) }
 }
 
 private val databaseModule = module {

@@ -1,21 +1,20 @@
 package com.afs.mobile.ui.tasks
 
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.afs.mobile.BR
 import com.afs.mobile.R
 import com.afs.mobile.common.OPEN_STATUS
 import com.afs.mobile.data.entity.Task
 import com.afs.mobile.databinding.TaskViewBinding
 import com.afs.mobile.ext.getAsyncListDiffer
+import com.afs.mobile.ext.hasManyTaskStatus
 import com.afs.mobile.ext.layoutInflater
 
 class TasksAdapter : RecyclerView.Adapter<TaskViewHolder>() {
 
     var onButtonClick: ((Task) -> Unit)? = null
-    var areButtonsDisabled = false
 
     private val differ = getAsyncListDiffer<Task> { oldItem, newItem -> oldItem.id == newItem.id }
 
@@ -27,27 +26,25 @@ class TasksAdapter : RecyclerView.Adapter<TaskViewHolder>() {
     override fun getItemCount(): Int = differ.currentList.size
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(differ.currentList[position], onButtonClick, areButtonsDisabled)
+        holder.bind(differ.currentList[position], onButtonClick)
     }
 
-    fun swapNewList(list: List<Task>) {
-        refreshAdapterWhenTaskStarted(list)
-    } 
-    
-    private fun refreshAdapterWhenTaskStarted(tasks: List<Task>) {
-        areButtonsDisabled = tasks.any { task -> task.state.name != OPEN_STATUS}
-        differ.submitList(tasks) { notifyDataSetChanged() }
+    fun swapNewList(tasks: List<Task>) {
+        //todo change name
+        val newTasks = if (tasks.hasManyTaskStatus()) changeTasksActivationStates(tasks) else tasks
+        differ.submitList(newTasks)
     }
+
+    private fun changeTasksActivationStates(tasks: List<Task>): List<Task> = tasks.map { task ->
+            if (task.state.name == OPEN_STATUS) task.copy(taskActivation = 0) else task.copy()
+        }
 }
 
 class TaskViewHolder(private val binding: TaskViewBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(task: Task, onButtonClick: ((Task) -> Unit)?, isGrayOut: Boolean) = with(binding) {
-        taskViewButton.visibility = if (task.state.name == OPEN_STATUS && isGrayOut) View.INVISIBLE else View.VISIBLE
-        taskViewId.text = binding.root.resources.getString(R.string.task_id, task.id.toString())
-        taskViewName.text = task.name
-        taskViewLayout.setBackgroundColor(ContextCompat.getColor(binding.root.context, task.state.colorRes))
-        taskViewStatus.text = binding.root.resources.getString(R.string.task_status, task.state.toString())
-        taskViewButton.text = binding.root.resources.getString(task.state.nextAction)
+    fun bind(task: Task, onButtonClick: ((Task) -> Unit)?) = with(binding) {
+        setVariable(BR.task, task)
+        executePendingBindings()
+
         taskViewButton.setOnClickListener { onButtonClick?.invoke(task) }
     }
 }

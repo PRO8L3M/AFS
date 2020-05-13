@@ -16,24 +16,12 @@ import kotlinx.android.synthetic.main.fragment_start.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class TasksFragment : BaseFragment() {
 
     private val viewModel: TasksViewModel by viewModel()
     private val tasksAdapter = TasksAdapter()
     private var isDoubleClicked = false
-
-    private val tasks = listOf(
-        Task(name = "London", state = TaskState.OPEN),
-        Task(name = "Chicago", state = TaskState.OPEN),
-        Task(name = "Berlin", state = TaskState.OPEN),
-        Task(name = "Rio", state = TaskState.OPEN),
-        Task(name = "Los Angeles", state = TaskState.OPEN),
-        Task(name = "Dubai", state = TaskState.OPEN),
-        Task(name = "Wroclaw", state = TaskState.OPEN),
-        Task(name = "Paris", state = TaskState.OPEN)
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,17 +35,24 @@ class TasksFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.task.observe(viewLifecycleOwner, Observer {
-            insertNewList(it)
+        viewModel.task.observe(viewLifecycleOwner, Observer { tasks ->
+            if (tasks.isEmpty()) {
+                val newTasks = viewModel.getMockedTasks()
+                viewModel.insertTasks(newTasks)
+            }
+            insertNewList(tasks)
         })
 
-       // viewModel.insertTasks(tasks)
         setUpRecyclerView()
         handleRecyclerClickEvents()
         onDoubleBackPressed()
     }
 
     private fun handleRecyclerClickEvents() {
+        updateTask()
+    }
+
+    private fun updateTask() {
         tasksAdapter.onButtonClick = { task ->
             val newTask = when(task.state) {
                 TaskState.OPEN -> task.copy(state = TaskState.TRAVELLING)

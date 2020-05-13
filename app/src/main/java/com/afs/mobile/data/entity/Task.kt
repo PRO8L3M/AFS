@@ -11,5 +11,10 @@ data class Task(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
     val name: String,
-    val state: TaskState
+    val state: TaskState,
+    /**
+     * 1 - active
+     * else - unactive
+     * */
+    val taskActivation: Int = 1
 )
