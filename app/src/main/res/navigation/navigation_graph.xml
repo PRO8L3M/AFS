@@ -9,7 +9,7 @@
         android:id="@+id/startFragment"
         android:name="com.afs.mobile.ui.tasks.TasksFragment"
         android:label="fragment_start"
-        tools:layout="@layout/fragment_start" />
+        tools:layout="@layout/fragment_tasks" />
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.afs.mobile.ui.splashScreen.SplashScreenFragment"

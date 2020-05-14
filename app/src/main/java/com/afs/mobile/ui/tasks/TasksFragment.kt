@@ -13,7 +13,7 @@ import com.afs.mobile.data.entity.Task
 import com.afs.mobile.ext.snackBar
 import com.afs.mobile.ext.toast
 import com.afs.mobile.util.ResultObserver
-import kotlinx.android.synthetic.main.fragment_start.*
+import kotlinx.android.synthetic.main.fragment_tasks.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,7 +30,7 @@ class TasksFragment : BaseFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        return inflater.inflate(R.layout.fragment_start, container, false)
+        return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

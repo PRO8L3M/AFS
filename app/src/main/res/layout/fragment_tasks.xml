@@ -5,4 +5,5 @@
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     android:background="@color/recycler_background"
     android:layout_width="match_parent"
+    android:splitMotionEvents="false"
     android:layout_height="match_parent" />

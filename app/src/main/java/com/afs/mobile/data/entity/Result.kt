@@ -21,9 +21,3 @@ inline infix fun <T> Result<T>.doOnSuccess(f: (T) -> Unit): Result<T> {
     }
     return this
 }
-
-fun <T> Result<T>.onSuccess(): T? {
-    return if (this is Result.Success) data else null
-}
-
-
