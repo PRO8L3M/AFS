@@ -9,5 +9,5 @@ import com.afs.mobile.data.entity.Task
 
 @BindingAdapter("bind:buttonVisibility")
 fun View.setButtonVisibility(task: Task) {
-    visibility = if (task.state.name == OPEN_STATUS && !task.taskActivation) INVISIBLE else VISIBLE
+    visibility = if (task.state.isOpen() && !task.taskActivation) INVISIBLE else VISIBLE
 }

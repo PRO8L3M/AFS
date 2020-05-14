@@ -6,13 +6,9 @@ import com.afs.mobile.data.entity.doOnSuccess
 import com.afs.mobile.data.entity.safeCall
 import com.afs.mobile.data.localDataSource.LocalDataSource
 import com.afs.mobile.data.remoteDataSource.RemoteDataSource
-import com.afs.mobile.database.AppDatabase
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
-import timber.log.Timber
 
-class TaskRepository(
+class TaskRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 ) : ITaskRepository {
@@ -24,6 +20,5 @@ class TaskRepository(
         safeCall { localDataSource.updateTask(task) }
 
     override fun getTasks(): Result<Flow<List<Task>>> = safeCall { localDataSource.getTasks() }
-
 }
 

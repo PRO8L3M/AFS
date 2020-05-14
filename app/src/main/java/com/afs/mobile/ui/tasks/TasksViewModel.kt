@@ -8,19 +8,15 @@ import com.afs.mobile.data.entity.Result
 import com.afs.mobile.data.entity.Task
 import com.afs.mobile.data.entity.doOnSuccess
 import com.afs.mobile.ext.hasVarietyTaskStatuses
-import com.afs.mobile.repository.TaskRepository
+import com.afs.mobile.repository.TaskRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TasksViewModel(private val repository: TaskRepository) : ViewModel() {
+class TasksViewModel(private val repository: TaskRepositoryImpl) : ViewModel() {
 
-    init {
-        getTasks()
-    }
-
-    private val _tasks: MutableLiveData<Result<List<Task>>> by lazy { MutableLiveData<Result<List<Task>>>() }
+    private val _tasks: MutableLiveData<Result<List<Task>>> by lazy { MutableLiveData<Result<List<Task>>>().apply { getTasks() } }
     val task: LiveData<Result<List<Task>>> = _tasks
 
     fun updateTask(task: Task) {
@@ -32,11 +28,12 @@ class TasksViewModel(private val repository: TaskRepository) : ViewModel() {
 
     private fun getTasks() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getTasks().doOnSuccess {
-                it.collect { tasks ->
-                    if (tasks.isEmpty()) initTaskFetch()
+            repository.getTasks().doOnSuccess { tasksFlow ->
+                tasksFlow.collect { tasks ->
+                    if (tasks.isEmpty()) repository.fetchTasks()
                     withContext(Dispatchers.Main) {
-                        val newTasks = if (tasks.hasVarietyTaskStatuses()) changeTasksState(tasks) else tasks
+                        val newTasks =
+                            if (tasks.hasVarietyTaskStatuses()) changeTasksState(tasks) else tasks
                         _tasks.value = Result.Success(newTasks)
                     }
                 }
@@ -46,11 +43,5 @@ class TasksViewModel(private val repository: TaskRepository) : ViewModel() {
 
     private fun changeTasksState(tasks: List<Task>) = tasks.map { task ->
         if (task.state.isOpen()) task.copy(taskActivation = false) else task
-    }
-
-    private fun initTaskFetch() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.fetchTasks()
-        }
     }
 }

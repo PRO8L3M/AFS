@@ -10,9 +10,11 @@ import com.afs.mobile.databinding.TaskViewBinding
 import com.afs.mobile.ext.layoutInflater
 import com.afs.mobile.util.getAsyncListDiffer
 
+typealias TaskClick = ((Task) -> Unit)
+
 class TasksAdapter : RecyclerView.Adapter<TaskViewHolder>() {
 
-    var onButtonClick: ((Task) -> Unit)? = null
+    var onButtonClick: TaskClick? = null
 
     private val differ = getAsyncListDiffer<Task> { oldItem, newItem -> oldItem.id == newItem.id }
 

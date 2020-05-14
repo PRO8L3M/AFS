@@ -47,11 +47,7 @@ class TasksFragment : BaseFragment() {
     }
 
     private fun handleRecyclerClickEvents() {
-        updateTask()
-    }
-
-    private fun updateTask() {
-        tasksAdapter.onButtonClick =  { task -> viewModel.updateTask(task) }
+        tasksAdapter.onButtonClick = { task -> viewModel.updateTask(task) }
     }
 
     private fun setupRecyclerView() {
