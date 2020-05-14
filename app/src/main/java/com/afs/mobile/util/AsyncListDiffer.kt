@@ -1,4 +1,4 @@
-package com.afs.mobile.ext
+package com.afs.mobile.util
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.AsyncListDiffer

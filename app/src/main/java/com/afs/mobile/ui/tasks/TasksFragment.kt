@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
-import androidx.lifecycle.Observer
 import com.afs.mobile.R
 import com.afs.mobile.common.BaseFragment
 import com.afs.mobile.common.DOUBLE_BACK_PRESSED_DURATION
+import com.afs.mobile.common.ERROR_OCCURRED
 import com.afs.mobile.data.entity.Task
-import com.afs.mobile.data.entity.TaskState
+import com.afs.mobile.ext.snackBar
 import com.afs.mobile.ext.toast
+import com.afs.mobile.util.ResultObserver
 import kotlinx.android.synthetic.main.fragment_start.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,23 +37,13 @@ class TasksFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeTaskLiveData()
-        setUpRecyclerView()
+        setupRecyclerView()
         handleRecyclerClickEvents()
         onDoubleBackPressed()
     }
 
     private fun observeTaskLiveData() {
-        viewModel.task.observe(viewLifecycleOwner, Observer { tasks ->
-            initTasksOnFirstLaunch(tasks)
-            insertNewList(tasks)
-        })
-    }
-
-    private fun initTasksOnFirstLaunch(tasks: List<Task>) {
-        if (tasks.isEmpty()) {
-            val newTasks = viewModel.getMockedTasks()
-            viewModel.insertTasks(newTasks)
-        }
+        viewModel.task.observe(viewLifecycleOwner, ResultObserver(::onSuccess, ::onFailure, ::onLoading))
     }
 
     private fun handleRecyclerClickEvents() {
@@ -60,21 +51,23 @@ class TasksFragment : BaseFragment() {
     }
 
     private fun updateTask() {
-        tasksAdapter.onButtonClick = { task ->
-            val newTask = when(task.state) {
-                TaskState.OPEN -> task.copy(state = TaskState.TRAVELLING)
-                TaskState.TRAVELLING -> task.copy(state = TaskState.WORKING)
-                TaskState.WORKING -> task.copy(state = TaskState.OPEN)
-            }
-            viewModel.updateTask(newTask)
-        }
+        tasksAdapter.onButtonClick =  { task -> viewModel.updateTask(task) }
     }
 
-    private fun setUpRecyclerView() {
+    private fun setupRecyclerView() {
         tasksRecyclerView.adapter = tasksAdapter
     }
 
-    private fun insertNewList(tasks: List<Task>) = tasksAdapter.swapNewList(tasks)
+    private fun onSuccess(tasks: List<Task>) {
+        swapList(tasks)
+    }
+    private fun onFailure(exception: Exception) {
+        snackBar(exception.localizedMessage ?: ERROR_OCCURRED)
+    }
+
+    private fun onLoading() {}
+
+    private fun swapList(tasks: List<Task>) = tasksAdapter.swapList(tasks)
 
     private fun onDoubleBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
@@ -88,5 +81,11 @@ class TasksFragment : BaseFragment() {
                 isDoubleClicked = false
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        onRecyclerViewDetached(tasksRecyclerView)
     }
 }

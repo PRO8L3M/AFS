@@ -1,10 +1,9 @@
-package com.afs.mobile.data.database
+package com.afs.mobile.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.afs.mobile.common.DATABASE
 import com.afs.mobile.data.entity.Task
 
@@ -14,7 +13,7 @@ import com.afs.mobile.data.entity.Task
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun tasksDao(): TasksDao
+    abstract fun tasksDao(): TaskDao
 
     companion object {
         fun buildDatabase(context: Context) =

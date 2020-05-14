@@ -13,19 +13,19 @@ class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        setUpKoin()
-        setUpTimber()
-        setUpStrictMode()
+        setupKoin()
+        setupTimber()
+        setupStrictMode()
     }
 
-    private fun setUpKoin() = startKoin {
+    private fun setupKoin() = startKoin {
         androidContext(this@MyApplication)
         modules(AppModules.modules)
     }
 
-    private fun setUpTimber() = Timber.plant(DebugTree())
+    private fun setupTimber() = Timber.plant(DebugTree())
 
-    private fun setUpStrictMode() {
+    private fun setupStrictMode() {
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(
                 StrictMode.ThreadPolicy.Builder()

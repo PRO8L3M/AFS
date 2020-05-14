@@ -1,20 +1,13 @@
-package com.afs.mobile.data.repository
+package com.afs.mobile.data.remoteDataSource
 
-import com.afs.mobile.data.database.AppDatabase
 import com.afs.mobile.data.entity.Task
 import com.afs.mobile.data.entity.TaskState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 
-class TaskRepository(private val db: AppDatabase) {
+class RemoteDataSource {
 
-    fun getTasks(): Flow<List<Task>> = db.tasksDao().getTasks().distinctUntilChanged()
+    fun fetchTask() = getMockedTasks()
 
-    suspend fun insertTasks(tasks: List<Task>) = db.tasksDao().insertTasks(tasks)
-
-    suspend fun updateTask(task: Task) = db.tasksDao().updateTask(task)
-
-    fun getMockedTasks() = listOf(
+    private fun getMockedTasks() = listOf(
         Task(name = "London", state = TaskState.OPEN),
         Task(name = "Chicago", state = TaskState.OPEN),
         Task(name = "Berlin", state = TaskState.OPEN),

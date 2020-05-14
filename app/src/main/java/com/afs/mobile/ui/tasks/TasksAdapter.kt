@@ -5,12 +5,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.afs.mobile.BR
 import com.afs.mobile.R
-import com.afs.mobile.common.OPEN_STATUS
 import com.afs.mobile.data.entity.Task
 import com.afs.mobile.databinding.TaskViewBinding
-import com.afs.mobile.ext.getAsyncListDiffer
-import com.afs.mobile.ext.hasVarietyTaskStatuses
 import com.afs.mobile.ext.layoutInflater
+import com.afs.mobile.util.getAsyncListDiffer
 
 class TasksAdapter : RecyclerView.Adapter<TaskViewHolder>() {
 
@@ -29,14 +27,9 @@ class TasksAdapter : RecyclerView.Adapter<TaskViewHolder>() {
         holder.bind(differ.currentList[position], onButtonClick)
     }
 
-    fun swapNewList(tasks: List<Task>) {
-        val newTasks = if (tasks.hasVarietyTaskStatuses()) changeTasksActivationStates(tasks) else tasks
-        differ.submitList(newTasks)
+    fun swapList(tasks: List<Task>) {
+        differ.submitList(tasks)
     }
-
-    private fun changeTasksActivationStates(tasks: List<Task>): List<Task> = tasks.map { task ->
-            if (task.state.name == OPEN_STATUS) task.copy(taskActivation = 0) else task.copy()
-        }
 }
 
 class TaskViewHolder(private val binding: TaskViewBinding) : RecyclerView.ViewHolder(binding.root) {

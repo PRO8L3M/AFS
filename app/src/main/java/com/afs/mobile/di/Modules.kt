@@ -1,19 +1,21 @@
 package com.afs.mobile.di
 
-import com.afs.mobile.data.database.AppDatabase
-import com.afs.mobile.data.repository.TaskRepository
+import com.afs.mobile.data.localDataSource.LocalDataSource
+import com.afs.mobile.data.remoteDataSource.RemoteDataSource
+import com.afs.mobile.database.AppDatabase
+import com.afs.mobile.repository.TaskRepository
 import com.afs.mobile.ui.tasks.TasksViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-object AppModules : ModuleLoader() {
-    override val modules: List<Module> =
-        listOf(
-            viewModelModule,
-            repositoryModule,
-            databaseModule
-        )
+object AppModules {
+    val modules = listOf(
+        viewModelModule,
+        repositoryModule,
+        databaseModule,
+        dataSourceModule)
 }
 
 private val viewModelModule = module {
@@ -21,7 +23,12 @@ private val viewModelModule = module {
 }
 
 private val repositoryModule = module {
-    single { TaskRepository(get()) }
+    single { TaskRepository(get(), get()) }
+}
+
+private val dataSourceModule = module {
+    single { LocalDataSource(get()) }
+    single { RemoteDataSource() }
 }
 
 private val databaseModule = module {
