@@ -43,7 +43,10 @@ class TasksFragment : BaseFragment() {
     }
 
     private fun observeTaskLiveData() {
-        viewModel.task.observe(viewLifecycleOwner, ResultObserver(::onSuccess, ::onFailure, ::onLoading))
+        viewModel.task.observe(
+            viewLifecycleOwner,
+            ResultObserver(::onSuccess, ::onFailure, ::onLoading)
+        )
     }
 
     private fun handleRecyclerClickEvents() {
@@ -57,6 +60,7 @@ class TasksFragment : BaseFragment() {
     private fun onSuccess(tasks: List<Task>) {
         swapList(tasks)
     }
+
     private fun onFailure(exception: Exception) {
         snackBar(exception.localizedMessage ?: ERROR_OCCURRED)
     }

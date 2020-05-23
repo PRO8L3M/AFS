@@ -1,33 +1,25 @@
 package com.afs.mobile.ui.splashScreen
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.afs.mobile.R
-import com.afs.mobile.common.BaseFragment
-import com.afs.mobile.common.SPLASH_SCREEN_DURATION
 import com.afs.mobile.ext.navigateTo
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SplashScreenFragment : BaseFragment() {
+class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-
-        return inflater.inflate(R.layout.fragment_splash_screen, container, false)
-    }
+    private val viewModel: SplashScreenViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewScope.launch {
-            delay(SPLASH_SCREEN_DURATION)
-            navigateTo(R.id.action_splashScreenFragment_to_startFragment)
-        }
+        viewModel.splashScreenFinished.observe(viewLifecycleOwner, Observer(::exitSplashScreen))
+        viewModel.delaySplashScreen()
+    }
+
+    private fun exitSplashScreen(isSplashScreenFinished: Boolean) {
+        if (isSplashScreenFinished) navigateTo(R.id.action_splashScreenFragment_to_startFragment)
     }
 }
